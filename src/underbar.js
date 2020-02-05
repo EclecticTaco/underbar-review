@@ -64,7 +64,7 @@
         iterator(collection[key], key, collection);
       }
     }
-  };
+  }
 
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -103,12 +103,59 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var resultArr = [];
+    for (var i = 0; i < collection.length; i++) {
+      if (!test(collection[i])) {
+        resultArr.push(collection[i]);
+      }
+    }
+    return resultArr;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
-  };
+    // create a result array
+    // create a object
+    // if (iterator === undefined) {
+      // use regular loop over array, see if result array contains element from input array
+    // } else
+    //  each on array iterate over array, apply iterator, assign key value pairs
+    // if key === undefined, run below
+    // key is array element transformed by interator
+    // value is the actualy element
+    // for in loop, push obj[key] into result array
+    // reutnr result array
+    // if ( typeof isSorted === "function") { // if array and argument passed in only
+    //   iterator = isSorted // set iterator to function passed in
+    //   isSorted = false
+    // }
 
+    if (typeof isSorted === "function") { // if array and argument passed in only
+      iterator = isSorted // set iterator to function passed in
+      isSorted = false
+    }
+
+    var compareObj = {};
+    var resultArr = [];
+    if (iterator === undefined) {
+      for (var i = 0; i < array.length; i += 1) {
+        if (!resultArr.includes(array[i])) {
+          resultArr.push(array[i]);
+        }
+      }
+    } else {
+      _.each(array, function(element) {
+        if (iterator(element) in compareObj === false) {
+          compareObj[iterator(element)] = element;
+        }
+      });
+      for (var key in compareObj) {
+        resultArr.push(compareObj[key])
+      }
+  };
+  return resultArr;
+
+}
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
@@ -249,9 +296,28 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
-  };
+  _.memoize = function(func) { // function(1,2,3) Array.from(arguments) -> "1, 2, 3"
+    // create cache obj
+    // return innner func () {}
+    // turn the arguments into a string
+    // if key exist then we return the value
+    // else set obj key = stringify(arguments) and the value to applying that function
+    var cache = {};
+    return function () {
+      var str = JSON.stringify(arguments);
+      if (str in cache) {
+        return cache[str];
+      } else {
+        cache[str] = func.apply(this, arguments);
+        return cache[str];
+      }
+    };
 
+  };
+  // var memoThis = _.memoize(someFunc) someFunc multiples by 2
+  // memoThis('1') 2
+  // memoThis('2') 4
+  // memoThis('1') 2
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
