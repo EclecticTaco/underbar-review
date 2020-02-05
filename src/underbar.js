@@ -64,7 +64,7 @@
         iterator(collection[key], key, collection);
       }
     }
-  }
+  };
 
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -117,7 +117,7 @@
     // create a result array
     // create a object
     // if (iterator === undefined) {
-      // use regular loop over array, see if result array contains element from input array
+    // use regular loop over array, see if result array contains element from input array
     // } else
     //  each on array iterate over array, apply iterator, assign key value pairs
     // if key === undefined, run below
@@ -130,9 +130,9 @@
     //   isSorted = false
     // }
 
-    if (typeof isSorted === "function") { // if array and argument passed in only
-      iterator = isSorted // set iterator to function passed in
-      isSorted = false
+    if (typeof isSorted === 'function') { // if array and argument passed in only
+      iterator = isSorted; // set iterator to function passed in
+      isSorted = false;
     }
 
     var compareObj = {};
@@ -150,12 +150,12 @@
         }
       });
       for (var key in compareObj) {
-        resultArr.push(compareObj[key])
+        resultArr.push(compareObj[key]);
       }
-  };
-  return resultArr;
+    }
+    return resultArr;
 
-}
+  };
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
